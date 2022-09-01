@@ -1,0 +1,53 @@
+﻿@model IEnumerable<WebApplication4.Models.User>
+
+@{
+    ViewBag.Title = "SQL Injection Test";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<p>
+    <span>The search below is designed to get only active users.  Try searching for '<span style="color: limegreen">bclinton</spanstyle="color:>'.</span>
+    <br />
+    <span>However, by using SQL injection, you can get ALL users, including inactive users.</span>
+    <br />
+    <span>To demonstrate this, enter <span style="color: red">' or 1=1 --</span> for username.</span>
+</p>
+
+<br />
+
+<p>
+    Enter username to find:
+    <br />
+    <form method="post" enctype="multipart/form-data" asp-controller="Home" asp-action="Index">
+        <input type="text" id="txtFirstName" name="username" />
+        <input type="submit" value="Submit" />
+    </form>
+</p>
+
+<br />
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Username)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Active)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.ActionLink(item.Username, "Details", new { id = item.UID })
+            </td>
+            <td>
+                @Html.ActionLink(item.Active.ToString(), "Details", new { id = item.UID })
+            </td>
+        </tr>
+    }
+
+</table>
